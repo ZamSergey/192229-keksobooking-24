@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Sergey Zamaletdinov](https://up.htmlacademy.ru/javascript/24/user/192229).
-* Наставник: `Дмитрий Рябинин`.
+* Наставник: [Дмитрий Рябинин](https://up.htmlacademy.ru/javascript/24/user/63289).
 
 ---
 
