@@ -1,5 +1,9 @@
-// import {getRandomPositiveInteger,getRandomPositiveFloat,shuffle} from './utils.js';
 import {generateData} from './data.js';
+import {getPlaceHtml} from './sameBlocks.js';
 
-const testData = generateData(10);
-console.log(testData);
+const placeContainer = document.querySelector('#map-canvas');
+const testPlaces = generateData(1);
+const popupBlockTemplate = document.querySelector('#card').content.querySelector('.popup');
+
+const testRent = getPlaceHtml(popupBlockTemplate,testPlaces);
+placeContainer.appendChild(testRent);
