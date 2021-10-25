@@ -1,29 +1,18 @@
-import {generateData} from './data.js';
-
 const placeType = {'flat': 'Квартира','bungalow':'Бунгало', 'house':'Дом','palace':'Дворец', 'hotel':'Отель'};
-
-const setUserList = function(itemList,itemClass,userList) {
-  itemList.forEach((element) => {
-    const isBlock =  userList.some((userElement) => element.classList.contains(`${itemClass}--${userElement}`));
-    if (!isBlock) {
-      element.remove();
-    }
-  });
-};
 
 const createFeatureList = (userElementArray) => {
   const featureList = document.createDocumentFragment();
-  let listItemTemplate = document.createElement('li')
-  listItemTemplate.classList.add('popup__feature')
+  const listItemTemplate = document.createElement('li');
+  listItemTemplate.classList.add('popup__feature');
 
   for(let i = 0; i < userElementArray.length; i++) {
     const listItem = listItemTemplate.cloneNode();
-    listItem.classList.add('popup__feature--'+userElementArray[i])
+    listItem.classList.add(`popup__feature-- ${userElementArray[i]}`);
     featureList.appendChild(listItem);
   }
 
   return featureList;
-}
+};
 
 const fillTextNode = (elementData,element,elementDataTemplate='') => {
   if(elementData) {
@@ -32,7 +21,7 @@ const fillTextNode = (elementData,element,elementDataTemplate='') => {
   else {
     element.remove();
   }
-}
+};
 
 const createSameElementList = function(elementTemplate,elements){
   const similarListFragment = document.createDocumentFragment();
@@ -55,8 +44,8 @@ const createCard = (elementObjectData) => {
     cardTemplate.querySelector('.popup__title').remove();
   }
 
-  fillTextNode(elementObjectData.offer.address,cardTemplate.querySelector('.popup__text--address'))
-  fillTextNode(elementObjectData.offer.price, cardTemplate.querySelector('.popup__text--price'),`${elementObjectData.offer.price} ₽/ночь`)
+  fillTextNode(elementObjectData.offer.address,cardTemplate.querySelector('.popup__text--address'));
+  fillTextNode(elementObjectData.offer.price, cardTemplate.querySelector('.popup__text--price'),`${elementObjectData.offer.price} ₽/ночь`);
   fillTextNode(elementObjectData.offer.type,cardTemplate.querySelector('.popup__type'), placeType[elementObjectData.offer.type]);
   fillTextNode(elementObjectData.offer.description, cardTemplate.querySelector('.popup__description'));
   //cardTemplate.querySelector('.popup__text--address').textContent = elementObjectData.offer.address;
