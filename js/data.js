@@ -1,6 +1,6 @@
 import {getRandomPositiveFloat, getRandomPositiveInteger, shuffle} from './utils.js';
 
-const TEST_TITLE = ['Отель Гранд Будапешт', 'Отель Тверь', 'Гостинница Москва', 'Parck Inn Hotel', 'Хостел у Петровича'];
+const TEST_TITLE = ['Гранд Будапешт', 'Три поросенка', 'Царский Двор', 'Parck Inn', 'У Петровича'];
 const TEST_TYPE = ['palace', 'flat', 'house', 'bungalow' ,'hotel'];
 const TEST_CHECKIN = ['12:00', '13:00', '14:00'];
 const TEST_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
