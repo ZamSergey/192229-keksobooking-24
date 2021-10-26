@@ -1,4 +1,5 @@
 const placeType = {'flat': 'Квартира','bungalow':'Бунгало', 'house':'Дом','palace':'Дворец', 'hotel':'Отель'};
+const cardTemplate = document.querySelector('#card').content.querySelector('.popup').cloneNode(true);
 
 const createFeatureList = (userElementArray) => {
   const featureList = document.createDocumentFragment();
@@ -7,7 +8,7 @@ const createFeatureList = (userElementArray) => {
 
   for(let i = 0; i < userElementArray.length; i++) {
     const listItem = listItemTemplate.cloneNode();
-    listItem.classList.add(`popup__feature-- ${userElementArray[i]}`);
+    listItem.classList.add(`popup__feature--${userElementArray[i]}`);
     featureList.appendChild(listItem);
   }
 
@@ -34,8 +35,7 @@ const createSameElementList = function(elementTemplate,elements){
 };
 
 const createCard = (elementObjectData) => {
-  const cardTemplate = document.querySelector('#card').content.querySelector('.popup').cloneNode(true);
-  const similarListFragment = document.createDocumentFragment();
+
 
   if (elementObjectData.offer.title) {
     cardTemplate.querySelector('.popup__title').textContent = elementObjectData.offer.title;
@@ -97,9 +97,7 @@ const createCard = (elementObjectData) => {
     cardTemplate.querySelector('.popup__avatar').remove();
   }
 
-  similarListFragment.appendChild(cardTemplate);
-
-  return similarListFragment;
+  return cardTemplate;
 };
 
 const showCard = (objectElementData) => {
@@ -109,6 +107,4 @@ const showCard = (objectElementData) => {
   placeContainer.appendChild(element);
 };
 
-
 export {showCard};
-
