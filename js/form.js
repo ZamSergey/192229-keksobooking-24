@@ -5,7 +5,7 @@ const toggleListDisabled = (elementsList) => {
   for(let i = 0; i < elementsList.length;i++ ){
     elementsList[i].toggleAttribute('disabled');
   }
-}
+};
 
 const disableForm = () => {
   form.classList.add('ad-form--disabled');
@@ -23,6 +23,6 @@ const enabledForm = () => {
   toggleListDisabled(form.querySelectorAll('input'));
   toggleListDisabled(mapFilter.querySelectorAll('select'));
   toggleListDisabled(mapFilter.querySelectorAll('input'));
-}
+};
 
 export {disableForm,enabledForm};
