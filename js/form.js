@@ -25,10 +25,6 @@ const enabledForm = () => {
   toggleListDisabled(mapFilter.querySelectorAll('input'));
 };
 
-form.addEventListener('submit',(evt) => {
-  evt.preventDefault();
-})
-
 const adTitle = document.querySelector('#title');
 const adPrice = document.querySelector('#price');
 const adRoomNumber = document.querySelector('#room_number');
@@ -83,7 +79,6 @@ const MAX_PRISE_LENGTH = 1000000;
 
 adPrice.addEventListener('input', () => {
   const value = adTitle.value;
-  console.log(adPrice.validity)
   if( value < MIN_PRISE_LENGTH) {
     adPrice.setCustomValidity(`Цена для данного типа жилья не может быть ниже ${MIN_PRISE_LENGTH} руб.`);
   }
@@ -97,15 +92,13 @@ adPrice.addEventListener('input', () => {
   adPrice.reportValidity();
 });
 
-adRoomNumber.addEventListener('input', () => {
-  // const roomNumber = adRoomNumber
-  //setValidRoomCapasity(adRoomNumber.value)
-});
-
-adRoomCapacity.addEventListener('input', () => {
+const checkRoomCapacity = () => {
   const roomCapacity = adRoomCapacity.value;
   const roomNumber = adRoomNumber.value;
-  if(roomCapacity > roomNumber) {
+  if (roomNumber === '100' && roomCapacity !== '0') {
+    adRoomCapacity.setCustomValidity('Такой тип размещения только не для гостей');
+  }
+  else if(roomCapacity > roomNumber) {
     adRoomCapacity.setCustomValidity(`Нельзя разместить ${roomCapacity} гостей в ${roomNumber} комнатах`);
   }
   else {
@@ -113,7 +106,21 @@ adRoomCapacity.addEventListener('input', () => {
   }
 
   adRoomCapacity.reportValidity();
+}
+
+adRoomNumber.addEventListener('input', () => {
+  // const roomNumber = adRoomNumber
+  //setValidRoomCapasity(adRoomNumber.value)
+  checkRoomCapacity();
+});
+
+adRoomCapacity.addEventListener('input', () => {
+  checkRoomCapacity();
   //setValidRoomCapasity(adRoomNumber.value) Заготовка для динамического изменения
 });
+checkRoomCapacity();
+form.addEventListener('submit',(evt) => {
+  evt.preventDefault();
+})
 
 export {disableForm,enabledForm};
