@@ -57,15 +57,16 @@ const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
 //Ограничения для цены
-const MIN_PRISE_LENGTH = getMinPrice(roomType);
 const MAX_PRISE_LENGTH = 1000000;
+
 //Предварительно нужно задать минимально возможную стоимость
 adPrice.min = getMinPrice(roomType);
+adPrice.placeholder = getMinPrice(roomType);
 
 const checkPrice = () => {
-  const value = adTitle.value;
-  if( value < MIN_PRISE_LENGTH) {
-    adPrice.setCustomValidity(`Цена для данного типа жилья не может быть ниже ${MIN_PRISE_LENGTH} руб.`);
+  const value = adPrice.value;
+  if( value < adPrice.min) {
+    adPrice.setCustomValidity(`Цена для данного типа жилья не может быть ниже ${adPrice.min} руб.`);
   }
   else if( value > MAX_PRISE_LENGTH) {
     adPrice.setCustomValidity(`Цена для данного типа жилья не может быть выше ${MAX_PRISE_LENGTH} руб.`);
@@ -75,7 +76,7 @@ const checkPrice = () => {
   }
 
   adPrice.reportValidity();
-}
+};
 //Логика для проверки комнат и размещенных в них людях
 const checkRoomCapacity = () => {
   const roomCapacity = adRoomCapacity.value;
@@ -93,29 +94,14 @@ const checkRoomCapacity = () => {
 
   adRoomCapacity.reportValidity();
 };
-//Если на странице поумолчанию стоитят невалидные значения, а пользователь ничего не менял, то должна производиться первичная проверка по умолчанию
+//Если на странице поумолчанию стоят невалидные значения, а пользователь ничего не менял, то должна производиться первичная проверка по умолчанию
 checkRoomCapacity();
 
-//Передаем первым параметром элемент где произошло событие, вторым тот который нужно поменять
-const setInOutTime = (firstList,secondList) => {
-  const time = firstList.value;
-  const options = secondList.querySelectorAll('option');
-  for(const option of options) {
-    if(option.matches(`[value='${time}']`)) {
-      option.selected = true;
-    }
-    else {
-      option.selected = false;
-    }
-  }
-};
 timeIn.addEventListener('change', () => {
-  setInOutTime(timeIn,timeOut);
-
+  timeOut.value = timeIn.value;
 });
 timeOut.addEventListener('change', () => {
-  setInOutTime(timeOut,timeIn);
-
+  timeIn.value = timeOut.value;
 });
 
 adTitle.addEventListener('input', () => {
@@ -137,6 +123,7 @@ adPrice.addEventListener('input', () => {
 
 roomType.addEventListener('change', () => {
   adPrice.min = getMinPrice(roomType);
+  adPrice.placeholder = getMinPrice(roomType);
   checkPrice();
 });
 
@@ -147,7 +134,5 @@ adRoomNumber.addEventListener('change', () => {
 adRoomCapacity.addEventListener('change', () => {
   checkRoomCapacity();
 });
-
-
 
 export {disableForm,enabledForm};
