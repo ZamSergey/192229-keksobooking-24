@@ -5,4 +5,3 @@ import {disableForm} from './form.js';
 const testPlaces = generateData(1);
 
 showCard(testPlaces[0]);
-disableForm();
