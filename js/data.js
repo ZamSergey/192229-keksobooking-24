@@ -54,7 +54,7 @@ const getHotel = (numberOfHotel) => {
 
 function generateData(nuberOfHotel) {
   const testHotelArray = [];
-  // Получить искомы массив с помощью меотда Array.from() не получилось за-за того, что в функцию нужно передавать параметры. Сделал через цикл
+  // Получить искомый массив с помощью меотда Array.from() не получилось за-за того, что в функцию нужно передавать параметры. Сделал через цикл
   for(let i = 0; i < nuberOfHotel;i++) {
     testHotelArray[i]= getHotel(i);
   }
