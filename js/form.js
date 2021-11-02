@@ -70,7 +70,7 @@ const setAddressCoordinate = (lat,lng) => {
   const floatLat = parseFloat(lat);
   const floatLng = parseFloat(lng);
   address.value = `${ floatLat.toFixed(5)},${floatLng.toFixed(5)}`;
-}
+};
 
 const checkPrice = () => {
   const value = adPrice.value;
