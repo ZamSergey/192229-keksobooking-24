@@ -15,6 +15,8 @@ const disableForm = () => {
   toggleListDisabled(mapFilter.querySelectorAll('select'));
   toggleListDisabled(mapFilter.querySelectorAll('input'));
 };
+//Поумолчания страница неактивна
+disableForm();
 
 const enabledForm = () => {
   form.classList.remove('ad-form--disabled');
@@ -51,6 +53,7 @@ const adRoomCapacity = document.querySelector('#capacity');
 const roomType = document.querySelector('#type');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
+const address = document.querySelector('#address');
 
 //Ограничения для заголовка
 const MIN_TITLE_LENGTH = 30;
@@ -62,6 +65,12 @@ const MAX_PRISE_LENGTH = 1000000;
 //Предварительно нужно задать минимально возможную стоимость
 adPrice.min = getMinPrice(roomType);
 adPrice.placeholder = getMinPrice(roomType);
+
+const setAddressCoordinate = (lat,lng) => {
+  const floatLat = parseFloat(lat);
+  const floatLng = parseFloat(lng);
+  address.value = `${ floatLat.toFixed(5)},${floatLng.toFixed(5)}`;
+};
 
 const checkPrice = () => {
   const value = adPrice.value;
@@ -135,4 +144,4 @@ adRoomCapacity.addEventListener('change', () => {
   checkRoomCapacity();
 });
 
-export {disableForm,enabledForm};
+export {disableForm,enabledForm,setAddressCoordinate};
