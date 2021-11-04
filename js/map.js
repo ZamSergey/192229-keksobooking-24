@@ -1,18 +1,17 @@
 import {enabledForm,setAddressCoordinate} from './form.js';
-import {generateData} from './data.js';
 import {createCard} from './card.js';
 
 const initLat = 35.681729;
 const initLng =  139.753927;
 const mainPin = {
   iconUrl: '/img/main-pin.svg',
-  iconSize: [16, 16],
-  iconAnchor: [8, 16],
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
 };
 const secondaryPin = {
   iconUrl: '/img/pin.svg',
-  iconSize: [16, 16],
-  iconAnchor: [8, 16],
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
 };
 
 const map = L.map('map-canvas')
@@ -45,7 +44,7 @@ const mainMarker = L.marker(
 );
 mainMarker.addTo(map);
 
-mainMarker.on('moveend', (evt) => {
+mainMarker.on('move', (evt) => {
   const coordinates =evt.target.getLatLng();
   setAddressCoordinate(coordinates.lat, coordinates.lng);
 });
@@ -65,11 +64,11 @@ const createMarker = (point) => {
     .bindPopup(createCard(point));
 };
 
+const drawMapData = (arrayData) => {
+  arrayData.forEach((point) => {
+    createMarker(point);
+  });
+};
 
-const testData = generateData(10);
 
-testData.forEach((point) => {
-  createMarker(point);
-});
-
-export {createMarker};
+export {drawMapData};
