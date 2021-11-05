@@ -70,7 +70,7 @@ const createCard = (elementObjectData) => {
   const featuresLits = cardTemplate.querySelector('.popup__features');
   const userFeatures = elementObjectData.offer.features;
 
-  if(userFeatures.length) {
+  if(userFeatures && userFeatures.length) {
     featuresLits.innerHTML = '';
     featuresLits.appendChild(createFeatureList(userFeatures));
   }

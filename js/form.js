@@ -1,3 +1,6 @@
+import {sendData} from './load.js';
+import {showAlert} from './utils.js';
+
 const form = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
 
@@ -142,6 +145,15 @@ adRoomNumber.addEventListener('change', () => {
 
 adRoomCapacity.addEventListener('change', () => {
   checkRoomCapacity();
+});
+
+form.addEventListener('submit', (evt)=>{
+  evt.preventDefault();
+  sendData(
+    () => showAlert('success'),
+    () => showAlert('error'),
+    new FormData(evt.target),
+  );
 });
 
 export {disableForm,enabledForm,setAddressCoordinate};

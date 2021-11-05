@@ -1,6 +1,6 @@
-import {generateData} from './data.js';
 //import {showCard} from './card.js';
 //import {disableForm} from './form.js';
 import {drawMapData} from './map.js';
+import {getData} from './load.js';
 
-drawMapData(generateData(10));
+getData(drawMapData);
