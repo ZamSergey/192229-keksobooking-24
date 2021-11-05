@@ -1,6 +1,6 @@
-const ALERT_SHOW_TIME = 5000;
-const ALERT_SUCCESS_TEMPLATE =  document.querySelector('#success');
-const ALERT_ERROR_TEMPLATE =   document.querySelector('#error');
+const ALERT_SHOW_TIME = 3000;
+const ALERT_SUCCESS_TEMPLATE =  document.querySelector('#success').content.querySelector('.success');
+const ALERT_ERROR_TEMPLATE =   document.querySelector('#error').content.querySelector('.error');
 
 function getRandomPositiveFloat (a, b, digits = 1) {
   const lower = Math.min(Math.abs(a), Math.abs(b));
@@ -33,7 +33,6 @@ const showAlert = (result) => {
   }
 
   const alertContainer = template.cloneNode(true);
-
   document.body.append(alertContainer);
 
   setTimeout(() => {

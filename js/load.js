@@ -11,9 +11,6 @@ const sendData = (onSuccess, onFail, body) => {
     'https://24.javascript.pages.academy/keksobooking',
     {
       method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
       body,
     },
   )
@@ -21,11 +18,11 @@ const sendData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess('success');
       } else {
-        onFail();
+        onFail('error');
       }
     })
     .catch(() => {
-      onFail();
+      onFail('error');
     });
 };
 

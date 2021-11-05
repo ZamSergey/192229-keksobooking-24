@@ -3,4 +3,6 @@
 import {drawMapData} from './map.js';
 import {getData} from './load.js';
 
+
 getData(drawMapData);
+

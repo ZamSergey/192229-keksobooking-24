@@ -150,8 +150,8 @@ adRoomCapacity.addEventListener('change', () => {
 form.addEventListener('submit', (evt)=>{
   evt.preventDefault();
   sendData(
-    () => showAlert('success'),
-    () => showAlert('error'),
+    showAlert,
+    showAlert,
     new FormData(evt.target),
   );
 });
