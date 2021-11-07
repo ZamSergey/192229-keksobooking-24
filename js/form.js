@@ -1,5 +1,5 @@
 import {sendData} from './load.js';
-import {showAlert} from './utils.js';
+import {resetMap} from './map.js';
 
 const form = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
@@ -57,6 +57,7 @@ const roomType = document.querySelector('#type');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
 const address = document.querySelector('#address');
+const reset = document.querySelector('.ad-form__reset');
 
 //Ограничения для заголовка
 const MIN_TITLE_LENGTH = 30;
@@ -147,11 +148,72 @@ adRoomCapacity.addEventListener('change', () => {
   checkRoomCapacity();
 });
 
+const showSuccessAlert = () => {
+  const alertContainer = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+  document.body.append(alertContainer);
+  const escHandler = (evt) => {
+    if (evt.key  === 'Escape') {
+      alertContainer.remove();
+      document.removeEventListener('keydown',escHandler);
+    }
+  };
+  document.addEventListener('keydown',escHandler);
+  const clickHandler = () => {
+    alertContainer.remove();
+    document.removeEventListener('click',clickHandler);
+  };
+  document.addEventListener('click',clickHandler);
+};
+
+const showErrorAlert = (errorText) => {
+  const alertContainer = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+  alertContainer.querySelector('.error__message').textContent = errorText;
+  document.body.append(alertContainer);
+  const escHandler = (evt) => {
+    if (evt.key  === 'Escape') {
+      alertContainer.remove();
+      document.removeEventListener('keydown',escHandler);
+    }
+  };
+  document.addEventListener('keydown',escHandler);
+  const clickHandler = () => {
+    alertContainer.remove();
+    document.removeEventListener('click',clickHandler);
+  };
+  document.addEventListener('click',clickHandler);
+
+  const closeErrorPopup = document.querySelector('.error__button');
+  const buttonHandler = () => {
+    alertContainer.remove();
+    closeErrorPopup.removeEventListener('click',buttonHandler);
+  };
+  closeErrorPopup.addEventListener('click',buttonHandler);
+};
+
+
+const onSuccess = () => {
+  showSuccessAlert();
+  form.reset();
+  resetMap();
+};
+const onError = (error) => {
+  showErrorAlert(error);
+};
+
+
+reset.addEventListener('click',(evt)=>{
+  evt.preventDefault();
+  form.reset();
+  mapFilter.reset();
+  resetMap();
+});
+
+
 form.addEventListener('submit', (evt)=>{
   evt.preventDefault();
   sendData(
-    showAlert,
-    showAlert,
+    onSuccess,
+    onError,
     new FormData(evt.target),
   );
 });

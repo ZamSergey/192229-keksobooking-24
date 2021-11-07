@@ -1,12 +1,20 @@
-const getData = (onSuccess) => {
+const getData = (onSuccess, onError) => {
   fetch('https://24.javascript.pages.academy/keksobooking/data')
-    .then((response) => response.json())
-    .then((hotels) => {
-      onSuccess(hotels);
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(`${response.status} ${response.statusText}`);
+    })
+    .then((data) => {
+      onSuccess(data);
+    })
+    .catch((err) => {
+      onError(err);
     });
 };
 
-const sendData = (onSuccess, onFail, body) => {
+const sendData = (onSuccess, onError, body) => {
   fetch(
     'https://24.javascript.pages.academy/keksobooking',
     {
@@ -16,13 +24,13 @@ const sendData = (onSuccess, onFail, body) => {
   )
     .then((response) => {
       if (response.ok) {
-        onSuccess('success');
+        onSuccess();
       } else {
-        onFail('error');
+        onError(`${response.status} ${response.statusText}`);
       }
     })
-    .catch(() => {
-      onFail('error');
+    .catch((err) => {
+      onError(err);
     });
 };
 

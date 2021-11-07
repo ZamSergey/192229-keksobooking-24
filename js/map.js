@@ -1,5 +1,10 @@
-import {enabledForm,setAddressCoordinate} from './form.js';
+import {setAddressCoordinate} from './form.js';
 import {createCard} from './card.js';
+
+
+const map = L.map('map-canvas');
+const mainPointLayer = L.layerGroup().addTo(map);
+const overPointLayer = L.layerGroup().addTo(map);
 
 const initLat = 35.681729;
 const initLng =  139.753927;
@@ -14,40 +19,51 @@ const secondaryPin = {
   iconAnchor: [20, 40],
 };
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    enabledForm();
-    setAddressCoordinate(initLat, initLng);
-  })
-  .setView({
+const setMainView = () => {
+  map.setView({
     lat: initLat,
     lng: initLng,
   }, 13);
+};
 
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+const configureMap = (functionAfterLoadMap) => {
+  map.on('load', () => {
+    functionAfterLoadMap();
+  });
+  setMainView();
 
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+};
 
-const mainMarker = L.marker(
-  {
-    lat:  initLat,
-    lng:  initLng,
-  },
-  {
-    draggable: true,
-    icon: L.icon(mainPin),
-  },
-);
-mainMarker.addTo(map);
+const setMainPin = () => {
+  const mainMarker = L.marker(
+    {
+      lat:  initLat,
+      lng:  initLng,
+    },
+    {
+      draggable: true,
+      icon: L.icon(mainPin),
+    },
+  );
+  mainPointLayer.clearLayers();
+  mainMarker.addTo(mainPointLayer);
 
-mainMarker.on('move', (evt) => {
-  const coordinates =evt.target.getLatLng();
-  setAddressCoordinate(coordinates.lat, coordinates.lng);
-});
+  mainMarker.on('move', (evt) => {
+    const coordinates =evt.target.getLatLng();
+    setAddressCoordinate(coordinates.lat, coordinates.lng);
+  });
+};
+
+const activateMap = (functionAfterLoadMap) => {
+  configureMap(functionAfterLoadMap);
+  setMainPin();
+};
 
 const createMarker = (point) => {
   const {lat, lng} = point.location;
@@ -60,7 +76,7 @@ const createMarker = (point) => {
   });
 
   marker
-    .addTo(map)
+    .addTo(overPointLayer)
     .bindPopup(createCard(point));
 };
 
@@ -70,5 +86,18 @@ const drawMapData = (arrayData) => {
   });
 };
 
+const closePopup = () => {
+  overPointLayer.eachLayer((layer) => {
+    layer.closePopup();
+  });
+};
 
-export {drawMapData};
+const resetMap = () => {
+  closePopup();
+  setMainView();
+  setMainPin();
+  setAddressCoordinate(initLat, initLng);
+};
+
+
+export {closePopup,resetMap, setMainPin,activateMap,drawMapData,initLat,initLng};
