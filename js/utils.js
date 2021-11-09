@@ -19,4 +19,10 @@ function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
 }
 
-export {getRandomPositiveFloat, getRandomPositiveInteger, shuffle};
+function isElemInArray(arr, val) {
+  return arr.some(function(arrVal) {
+    return val === arrVal;
+  });
+}
+
+export {getRandomPositiveFloat, getRandomPositiveInteger, shuffle,isElemInArray};

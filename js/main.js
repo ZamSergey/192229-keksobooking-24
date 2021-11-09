@@ -2,11 +2,12 @@
 //import {disableForm} from './form.js';
 import {activateMap,drawMapData,initLat,initLng} from './map.js';
 import {getData} from './load.js';
-import {enabledForm,setAddressCoordinate} from './form.js';
+import {enabledForm,setAddressCoordinate,setEvant} from './form.js';
+import {comparePlaces} from './filter.js';
 
 
 const getDataOnSuccess = (data) => {
-  drawMapData(data);
+  drawMapData(data.slice().sort(comparePlaces).slice(0,10));
 };
 
 const getDataOnError = (error) => {
@@ -21,3 +22,4 @@ const activatePage = () => {
 
 activateMap(activatePage);
 
+setEvant( console.log);

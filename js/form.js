@@ -1,5 +1,8 @@
 import {sendData} from './load.js';
 import {resetMap} from './map.js';
+import {showSuccessAlert,showErrorAlert} from './message.js';
+import {generateData} from './data.js';
+import {getSimilarPlaces,getFilterValue} from './filter.js';
 
 const form = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
@@ -148,49 +151,6 @@ adRoomCapacity.addEventListener('change', () => {
   checkRoomCapacity();
 });
 
-const showSuccessAlert = () => {
-  const alertContainer = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
-  document.body.append(alertContainer);
-  const escHandler = (evt) => {
-    if (evt.key  === 'Escape') {
-      alertContainer.remove();
-      document.removeEventListener('keydown',escHandler);
-    }
-  };
-  document.addEventListener('keydown',escHandler);
-  const clickHandler = () => {
-    alertContainer.remove();
-    document.removeEventListener('click',clickHandler);
-  };
-  document.addEventListener('click',clickHandler);
-};
-
-const showErrorAlert = (errorText) => {
-  const alertContainer = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-  alertContainer.querySelector('.error__message').textContent = errorText;
-  document.body.append(alertContainer);
-  const escHandler = (evt) => {
-    if (evt.key  === 'Escape') {
-      alertContainer.remove();
-      document.removeEventListener('keydown',escHandler);
-    }
-  };
-  document.addEventListener('keydown',escHandler);
-  const clickHandler = () => {
-    alertContainer.remove();
-    document.removeEventListener('click',clickHandler);
-  };
-  document.addEventListener('click',clickHandler);
-
-  const closeErrorPopup = document.querySelector('.error__button');
-  const buttonHandler = () => {
-    alertContainer.remove();
-    closeErrorPopup.removeEventListener('click',buttonHandler);
-  };
-  closeErrorPopup.addEventListener('click',buttonHandler);
-};
-
-
 const onSuccess = () => {
   showSuccessAlert();
   form.reset();
@@ -201,6 +161,11 @@ const onError = (error) => {
 };
 
 
+const setEvant = (cb) => {
+  mapFilter.addEventListener('change', () => {
+    cb('1');
+  });
+};
 reset.addEventListener('click',(evt)=>{
   evt.preventDefault();
   form.reset();
@@ -211,6 +176,7 @@ reset.addEventListener('click',(evt)=>{
 
 form.addEventListener('submit', (evt)=>{
   evt.preventDefault();
+
   sendData(
     onSuccess,
     onError,
@@ -218,4 +184,5 @@ form.addEventListener('submit', (evt)=>{
   );
 });
 
-export {disableForm,enabledForm,setAddressCoordinate};
+
+export {disableForm,enabledForm,setAddressCoordinate,getFilterValue,setEvant};
