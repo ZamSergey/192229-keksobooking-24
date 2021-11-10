@@ -28,9 +28,12 @@ const getFilterValue = () => {
       filterArray.push(feature.value);
     }
   }
-  filterObject.features = filterArray;
+  if (filterArray.length > 0) {
+    filterObject.features = filterArray;
+  }
   return filterObject;
 };
+
 
 const countPriceRank = (filerValue,dataValue) => {
   let rank = 0;
@@ -47,10 +50,13 @@ const countPriceRank = (filerValue,dataValue) => {
 };
 
 
-const getSimilarPlaces = (dataObject,filterObject) => {
+const getSimilarPlaces = (dataObject) => {
   const currentData = dataObject.offer;
+  const filterObject = getFilterValue();
   let placeRank = 0;
+  let featuresRank = 0;
   for(const filter in filterObject) {
+
     if(filter === 'type' && currentData[filter] === filterObject[filter]) {
       placeRank++;
     }
@@ -63,21 +69,33 @@ const getSimilarPlaces = (dataObject,filterObject) => {
     if(filter === 'guests' && currentData[filter] >= parseInt(filterObject[filter],10)) {
       placeRank ++;
     }
-    if(filter === 'features') {
-      currentData[filter].map((element)=>{
-        if(isElemInArray(filterObject.features,element)) {
-          placeRank ++;
+    if(filter === 'features' && currentData[filter]) {
+      filterObject[filter].map((element)=>{
+        if(isElemInArray(currentData[filter],element)) {
+          featuresRank ++;
         }
       });
     }
   }
-  return placeRank;
+
+  //Если в фильтре выбраны features то длинна объекта больше на 1
+  if(filterObject.features && featuresRank > 0 && filterObject.features.length === featuresRank){
+    placeRank++;
+  }
+  return (placeRank === Object.keys(filterObject).length);
 };
+
+
 const comparePlaces = (placeA, placeB) => {
   const rankA = getSimilarPlaces(placeA);
   const rankB = getSimilarPlaces(placeB);
 
   return rankB - rankA;
-}
+};
 
-export {getSimilarPlaces,getFilterValue,comparePlaces};
+const filterData = (dataArray) => {
+  const filteredData = dataArray.filter(getSimilarPlaces);
+  return filteredData;
+};
+
+export {filterData,getFilterValue,comparePlaces};

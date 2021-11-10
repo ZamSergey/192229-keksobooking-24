@@ -99,5 +99,9 @@ const resetMap = () => {
   setAddressCoordinate(initLat, initLng);
 };
 
+const updateMap = (arrayData) => {
+  overPointLayer.clearLayers();
+  drawMapData(arrayData);
+};
 
-export {closePopup,resetMap, setMainPin,activateMap,drawMapData,initLat,initLng};
+export {closePopup,resetMap, setMainPin,activateMap,drawMapData,initLat,initLng,updateMap};

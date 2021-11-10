@@ -1,8 +1,7 @@
 import {sendData} from './load.js';
 import {resetMap} from './map.js';
 import {showSuccessAlert,showErrorAlert} from './message.js';
-import {generateData} from './data.js';
-import {getSimilarPlaces,getFilterValue} from './filter.js';
+import {getFilterValue} from './filter.js';
 
 const form = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
@@ -162,10 +161,9 @@ const onError = (error) => {
 
 
 const setEvant = (cb) => {
-  mapFilter.addEventListener('change', () => {
-    cb('1');
-  });
+  mapFilter.addEventListener('change', () => cb());
 };
+
 reset.addEventListener('click',(evt)=>{
   evt.preventDefault();
   form.reset();
