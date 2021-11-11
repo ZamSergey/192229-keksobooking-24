@@ -13,7 +13,7 @@ const getDataOnSuccess = (data) => {
 };
 
 const getDataOnError = (error) => {
-  console.log(error);
+  throw new Error(`При загрузке данных произошла ошибка ${error}`);
 };
 
 const getData = () => dataFromServer;

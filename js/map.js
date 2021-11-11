@@ -1,7 +1,6 @@
 import {setAddressCoordinate} from './form.js';
 import {createCard} from './card.js';
 
-const MAP_POINTS_LIMIT = 10;
 const map = L.map('map-canvas');
 const mainPointLayer = L.layerGroup().addTo(map);
 const overPointLayer = L.layerGroup().addTo(map);

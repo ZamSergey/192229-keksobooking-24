@@ -1,5 +1,3 @@
-import {isElemInArray} from './utils.js';
-
 const typeFilter = document.querySelector('#housing-type');
 const priceFilter = document.querySelector('#housing-price');
 const roomsFilter = document.querySelector('#housing-rooms');
@@ -63,15 +61,15 @@ const getSimilarPlaces = (dataObject) => {
     if(filter === 'price') {
       placeRank += countPriceRank(filterObject[filter],currentData[filter]);
     }
-    if(filter === 'rooms' && currentData[filter] >= parseInt(filterObject[filter],10)) {
+    if(filter === 'rooms' && currentData[filter] === parseInt(filterObject[filter],10)) {
       placeRank ++;
     }
-    if(filter === 'guests' && currentData[filter] >= parseInt(filterObject[filter],10)) {
+    if(filter === 'guests' && currentData[filter] === parseInt(filterObject[filter],10)) {
       placeRank ++;
     }
     if(filter === 'features' && currentData[filter]) {
       filterObject[filter].map((element)=>{
-        if(isElemInArray(currentData[filter],element)) {
+        if(currentData[filter].includes(element)) {
           featuresRank ++;
         }
       });
