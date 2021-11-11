@@ -5,6 +5,22 @@ import {getFilterValue} from './filter.js';
 
 const form = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
+const adTitle = document.querySelector('#title');
+const adPrice = document.querySelector('#price');
+const adRoomNumber = document.querySelector('#room_number');
+const adRoomCapacity = document.querySelector('#capacity');
+const roomType = document.querySelector('#type');
+const timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
+const address = document.querySelector('#address');
+const reset = document.querySelector('.ad-form__reset');
+
+//Ограничения для заголовка
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+
+//Ограничения для цены
+const MAX_PRISE_LENGTH = 1000000;
 
 const toggleListDisabled = (elementsList) => {
   for(let i = 0; i < elementsList.length;i++ ){
@@ -49,24 +65,6 @@ const getMinPrice = (selectedTypeOption) => {
   }
   return minPrise;
 };
-
-//Все поля с которыми я работаю при валидации
-const adTitle = document.querySelector('#title');
-const adPrice = document.querySelector('#price');
-const adRoomNumber = document.querySelector('#room_number');
-const adRoomCapacity = document.querySelector('#capacity');
-const roomType = document.querySelector('#type');
-const timeIn = document.querySelector('#timein');
-const timeOut = document.querySelector('#timeout');
-const address = document.querySelector('#address');
-const reset = document.querySelector('.ad-form__reset');
-
-//Ограничения для заголовка
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
-
-//Ограничения для цены
-const MAX_PRISE_LENGTH = 1000000;
 
 //Предварительно нужно задать минимально возможную стоимость
 adPrice.min = getMinPrice(roomType);
