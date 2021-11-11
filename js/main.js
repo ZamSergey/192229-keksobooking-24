@@ -2,7 +2,7 @@ import {activateMap,drawMapData,updateMap,initLat,initLng} from './map.js';
 import {loadData} from './load.js';
 import {enabledForm,setAddressCoordinate,setEvant} from './form.js';
 import {filterData} from './filter.js';
-import {debounce} from './utils/debounce.js';
+import {debounce} from './utils.js';
 
 const DATA_LIMIT = 10;
 let dataFromServer = [];
