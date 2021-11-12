@@ -1,4 +1,4 @@
-const getData = (onSuccess, onError) => {
+const loadData = (onSuccess, onError) => {
   fetch('https://24.javascript.pages.academy/keksobooking/data')
     .then((response) => {
       if (response.ok) {
@@ -34,4 +34,4 @@ const sendData = (onSuccess, onError, body) => {
     });
 };
 
-export {getData, sendData};
+export {loadData, sendData};

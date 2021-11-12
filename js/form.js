@@ -1,8 +1,26 @@
 import {sendData} from './load.js';
 import {resetMap} from './map.js';
+import {showSuccessAlert,showErrorAlert} from './message.js';
+import {getFilterValue} from './filter.js';
 
 const form = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
+const adTitle = document.querySelector('#title');
+const adPrice = document.querySelector('#price');
+const adRoomNumber = document.querySelector('#room_number');
+const adRoomCapacity = document.querySelector('#capacity');
+const roomType = document.querySelector('#type');
+const timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
+const address = document.querySelector('#address');
+const reset = document.querySelector('.ad-form__reset');
+
+//Ограничения для заголовка
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+
+//Ограничения для цены
+const MAX_PRISE_LENGTH = 1000000;
 
 const toggleListDisabled = (elementsList) => {
   for(let i = 0; i < elementsList.length;i++ ){
@@ -47,24 +65,6 @@ const getMinPrice = (selectedTypeOption) => {
   }
   return minPrise;
 };
-
-//Все поля с которыми я работаю при валидации
-const adTitle = document.querySelector('#title');
-const adPrice = document.querySelector('#price');
-const adRoomNumber = document.querySelector('#room_number');
-const adRoomCapacity = document.querySelector('#capacity');
-const roomType = document.querySelector('#type');
-const timeIn = document.querySelector('#timein');
-const timeOut = document.querySelector('#timeout');
-const address = document.querySelector('#address');
-const reset = document.querySelector('.ad-form__reset');
-
-//Ограничения для заголовка
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
-
-//Ограничения для цены
-const MAX_PRISE_LENGTH = 1000000;
 
 //Предварительно нужно задать минимально возможную стоимость
 adPrice.min = getMinPrice(roomType);
@@ -148,49 +148,6 @@ adRoomCapacity.addEventListener('change', () => {
   checkRoomCapacity();
 });
 
-const showSuccessAlert = () => {
-  const alertContainer = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
-  document.body.append(alertContainer);
-  const escHandler = (evt) => {
-    if (evt.key  === 'Escape') {
-      alertContainer.remove();
-      document.removeEventListener('keydown',escHandler);
-    }
-  };
-  document.addEventListener('keydown',escHandler);
-  const clickHandler = () => {
-    alertContainer.remove();
-    document.removeEventListener('click',clickHandler);
-  };
-  document.addEventListener('click',clickHandler);
-};
-
-const showErrorAlert = (errorText) => {
-  const alertContainer = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-  alertContainer.querySelector('.error__message').textContent = errorText;
-  document.body.append(alertContainer);
-  const escHandler = (evt) => {
-    if (evt.key  === 'Escape') {
-      alertContainer.remove();
-      document.removeEventListener('keydown',escHandler);
-    }
-  };
-  document.addEventListener('keydown',escHandler);
-  const clickHandler = () => {
-    alertContainer.remove();
-    document.removeEventListener('click',clickHandler);
-  };
-  document.addEventListener('click',clickHandler);
-
-  const closeErrorPopup = document.querySelector('.error__button');
-  const buttonHandler = () => {
-    alertContainer.remove();
-    closeErrorPopup.removeEventListener('click',buttonHandler);
-  };
-  closeErrorPopup.addEventListener('click',buttonHandler);
-};
-
-
 const onSuccess = () => {
   showSuccessAlert();
   form.reset();
@@ -200,6 +157,10 @@ const onError = (error) => {
   showErrorAlert(error);
 };
 
+
+const setEvant = (cb) => {
+  mapFilter.addEventListener('change', () => cb());
+};
 
 reset.addEventListener('click',(evt)=>{
   evt.preventDefault();
@@ -211,6 +172,7 @@ reset.addEventListener('click',(evt)=>{
 
 form.addEventListener('submit', (evt)=>{
   evt.preventDefault();
+
   sendData(
     onSuccess,
     onError,
@@ -218,4 +180,5 @@ form.addEventListener('submit', (evt)=>{
   );
 });
 
-export {disableForm,enabledForm,setAddressCoordinate};
+
+export {disableForm,enabledForm,setAddressCoordinate,getFilterValue,setEvant};

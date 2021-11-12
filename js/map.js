@@ -1,7 +1,6 @@
 import {setAddressCoordinate} from './form.js';
 import {createCard} from './card.js';
 
-
 const map = L.map('map-canvas');
 const mainPointLayer = L.layerGroup().addTo(map);
 const overPointLayer = L.layerGroup().addTo(map);
@@ -99,5 +98,9 @@ const resetMap = () => {
   setAddressCoordinate(initLat, initLng);
 };
 
+const updateMap = (arrayData) => {
+  overPointLayer.clearLayers();
+  drawMapData(arrayData);
+};
 
-export {closePopup,resetMap, setMainPin,activateMap,drawMapData,initLat,initLng};
+export {closePopup,resetMap, setMainPin,activateMap,drawMapData,initLat,initLng,updateMap};
