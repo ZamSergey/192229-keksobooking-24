@@ -36,7 +36,7 @@ const disableForm = () => {
   toggleListDisabled(mapFilter.querySelectorAll('select'));
   toggleListDisabled(mapFilter.querySelectorAll('input'));
 };
-//Поумолчания страница неактивна
+//Поумолчанию страница неактивна
 disableForm();
 
 const enabledForm = () => {
@@ -157,11 +157,6 @@ const onError = (error) => {
   showErrorAlert(error);
 };
 
-
-const setEvant = (cb) => {
-  mapFilter.addEventListener('change', () => cb());
-};
-
 reset.addEventListener('click',(evt)=>{
   evt.preventDefault();
   form.reset();
@@ -180,5 +175,4 @@ form.addEventListener('submit', (evt)=>{
   );
 });
 
-
-export {disableForm,enabledForm,setAddressCoordinate,getFilterValue,setEvant};
+export {disableForm,enabledForm,setAddressCoordinate,getFilterValue};
