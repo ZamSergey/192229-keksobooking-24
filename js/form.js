@@ -14,6 +14,17 @@ const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
 const address = document.querySelector('#address');
 const reset = document.querySelector('.ad-form__reset');
+//Ограничение для загружаемых картинок
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const avatarPlaсeholder = document.querySelector('.ad-form-header__preview img');
+
+const fileAvatar = document.querySelector('#avatar');
+const avatarPreview = document.querySelector('.ad-form-header__preview');
+const avatarOptions = {width: 40,height:40};
+
+const hotelImage = document.querySelector('#images');
+const hotelPreview = document.querySelector('.ad-form__photo');
+const hotelOptions = {style: 'max-width:100%;max-height:100%'};
 
 //Ограничения для заголовка
 const MIN_TITLE_LENGTH = 30;
@@ -36,8 +47,7 @@ const disableForm = () => {
   toggleListDisabled(mapFilter.querySelectorAll('select'));
   toggleListDisabled(mapFilter.querySelectorAll('input'));
 };
-//Поумолчания страница неактивна
-disableForm();
+
 
 const enabledForm = () => {
   form.classList.remove('ad-form--disabled');
@@ -66,10 +76,6 @@ const getMinPrice = (selectedTypeOption) => {
   return minPrise;
 };
 
-//Предварительно нужно задать минимально возможную стоимость
-adPrice.min = getMinPrice(roomType);
-adPrice.placeholder = getMinPrice(roomType);
-
 const setAddressCoordinate = (lat,lng) => {
   const floatLat = parseFloat(lat);
   const floatLng = parseFloat(lng);
@@ -90,6 +96,7 @@ const checkPrice = () => {
 
   adPrice.reportValidity();
 };
+
 //Логика для проверки комнат и размещенных в них людях
 const checkRoomCapacity = () => {
   const roomCapacity = adRoomCapacity.value;
@@ -107,6 +114,52 @@ const checkRoomCapacity = () => {
 
   adRoomCapacity.reportValidity();
 };
+
+const showFilePreview = (fileInput,imageContainer,imageOptions) => {
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    const fileName = file.name.toLowerCase();
+
+    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+    if (matches) {
+      imageContainer.innerHTML = '';
+      const preview = document.createElement('img');
+      preview.src = URL.createObjectURL(file);
+      for(const option in imageOptions) {
+        preview[option] =imageOptions[option];
+      }
+      imageContainer.append(preview);
+    }
+  });
+};
+
+const clearFileReview =(placeContainer,defaulChild = false) => {
+  placeContainer.innerHTML ='';
+  if(defaulChild) {
+    placeContainer.append(defaulChild);
+  }
+};
+
+const onSuccess = () => {
+  showSuccessAlert();
+  form.reset();
+  clearFileReview(avatarPreview,avatarPlaсeholder);
+  clearFileReview(hotelPreview);
+  resetMap();
+};
+
+const onError = (error) => {
+  showErrorAlert(error);
+};
+
+//Поумолчанию страница неактивна
+disableForm();
+
+//Предварительно нужно задать минимально возможную стоимость
+adPrice.min = getMinPrice(roomType);
+adPrice.placeholder = getMinPrice(roomType);
+
 //Если на странице поумолчанию стоят невалидные значения, а пользователь ничего не менял, то должна производиться первичная проверка по умолчанию
 checkRoomCapacity();
 
@@ -148,23 +201,14 @@ adRoomCapacity.addEventListener('change', () => {
   checkRoomCapacity();
 });
 
-const onSuccess = () => {
-  showSuccessAlert();
-  form.reset();
-  resetMap();
-};
-const onError = (error) => {
-  showErrorAlert(error);
-};
-
-
-const setEvant = (cb) => {
-  mapFilter.addEventListener('change', () => cb());
-};
+showFilePreview(fileAvatar,avatarPreview,avatarOptions);
+showFilePreview(hotelImage,hotelPreview,hotelOptions);
 
 reset.addEventListener('click',(evt)=>{
   evt.preventDefault();
   form.reset();
+  clearFileReview(avatarPreview,avatarPlaсeholder);
+  clearFileReview(hotelPreview);
   mapFilter.reset();
   resetMap();
 });
@@ -180,5 +224,4 @@ form.addEventListener('submit', (evt)=>{
   );
 });
 
-
-export {disableForm,enabledForm,setAddressCoordinate,getFilterValue,setEvant};
+export {disableForm,enabledForm,setAddressCoordinate,getFilterValue};
