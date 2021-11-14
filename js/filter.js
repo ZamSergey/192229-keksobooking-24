@@ -3,7 +3,7 @@ const priceFilter = document.querySelector('#housing-price');
 const roomsFilter = document.querySelector('#housing-rooms');
 const guestsFilter = document.querySelector('#housing-guests');
 const featuresFilter = document.querySelector('#housing-features');
-
+const mapFilter = document.querySelector('.map__filters');
 
 const getFilterValue = () => {
   const filterObject = {};
@@ -19,12 +19,10 @@ const getFilterValue = () => {
   if(guestsFilter.value !== 'any'){
     filterObject.guests = guestsFilter.value;
   }
-  const features = featuresFilter.querySelectorAll('input[name=features]');
+  const features = featuresFilter.querySelectorAll('input[name=features]:checked');
   const filterArray = [];
   for(const feature of features) {
-    if(feature.checked) {
-      filterArray.push(feature.value);
-    }
+    filterArray.push(feature.value);
   }
   if (filterArray.length > 0) {
     filterObject.features = filterArray;
@@ -68,7 +66,7 @@ const getSimilarPlaces = (dataObject) => {
       placeRank ++;
     }
     if(filter === 'features' && currentData[filter]) {
-      filterObject[filter].map((element)=>{
+      filterObject[filter].forEach((element)=>{
         if(currentData[filter].includes(element)) {
           featuresRank ++;
         }
@@ -83,17 +81,13 @@ const getSimilarPlaces = (dataObject) => {
   return (placeRank === Object.keys(filterObject).length);
 };
 
-
-const comparePlaces = (placeA, placeB) => {
-  const rankA = getSimilarPlaces(placeA);
-  const rankB = getSimilarPlaces(placeB);
-
-  return rankB - rankA;
-};
-
 const filterData = (dataArray) => {
   const filteredData = dataArray.filter(getSimilarPlaces);
   return filteredData;
 };
 
-export {filterData,getFilterValue,comparePlaces};
+const setFilterEventListener = (cb) => {
+  mapFilter.addEventListener('change', () => cb());
+};
+
+export {filterData,getFilterValue,setFilterEventListener};
