@@ -82,12 +82,23 @@ const getSimilarPlaces = (dataObject) => {
 };
 
 const filterData = (dataArray) => {
-  const filteredData = dataArray.filter(getSimilarPlaces);
+  const filteredData = [];
+  for(let i = 0; i < dataArray.length; i++){
+    if(getSimilarPlaces(dataArray[i])) {
+      filteredData.push(dataArray[i]);
+    }
+    if(filteredData.length === 10) {
+      break;
+    }
+  }
   return filteredData;
 };
 
 const setFilterEventListener = (cb) => {
   mapFilter.addEventListener('change', () => cb());
+  mapFilter.addEventListener('reset', () => cb());
 };
+
+
 
 export {filterData,getFilterValue,setFilterEventListener};
