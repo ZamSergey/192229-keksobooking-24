@@ -99,6 +99,4 @@ const setFilterEventListener = (cb) => {
   mapFilter.addEventListener('reset', () => cb());
 };
 
-
-
 export {filterData,getFilterValue,setFilterEventListener};
