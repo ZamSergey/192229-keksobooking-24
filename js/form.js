@@ -27,6 +27,7 @@ const hotelImage = document.querySelector('#images');
 const hotelPreview = document.querySelector('.ad-form__photo');
 const hotelOptions = {style: 'max-width:100%;max-height:100%;border-radius:5px'};
 
+
 //Ограничения для заголовка
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
