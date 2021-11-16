@@ -48,10 +48,6 @@ const createCard = (elementObjectData) => {
   fillTextNode(elementObjectData.offer.price, cardTemplate.querySelector('.popup__text--price'),`${elementObjectData.offer.price} ₽/ночь`);
   fillTextNode(elementObjectData.offer.type,cardTemplate.querySelector('.popup__type'), placeType[elementObjectData.offer.type]);
   fillTextNode(elementObjectData.offer.description, cardTemplate.querySelector('.popup__description'));
-  //cardTemplate.querySelector('.popup__text--address').textContent = elementObjectData.offer.address;
-  // cardTemplate.querySelector('.popup__text--price').textContent = `${elementObjectData.offer.price} ₽/ночь`;
-  //cardTemplate.querySelector('.popup__type').textContent = placeType[elementObjectData.offer.type];
-  // cardTemplate.querySelector('.popup__description').textContent = elementObjectData.offer.description;
 
   if(elementObjectData.offer.rooms && elementObjectData.offer.guests) {
     cardTemplate.querySelector('.popup__text--capacity').textContent = `${elementObjectData.offer.rooms} комнат для ${elementObjectData.offer.guests} гостей`;

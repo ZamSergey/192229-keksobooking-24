@@ -99,8 +99,9 @@ const resetMap = () => {
 };
 
 const updateMap = (arrayData) => {
+  resetMap();
   overPointLayer.clearLayers();
   drawMapData(arrayData);
 };
 
-export {closePopup,resetMap, setMainPin,activateMap,drawMapData,initLat,initLng,updateMap};
+export {closePopup, setMainPin,activateMap,drawMapData,initLat,initLng,updateMap};

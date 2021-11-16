@@ -1,5 +1,6 @@
 import {sendData} from './load.js';
-import {resetMap} from './map.js';
+// import {resetMap} from './map.js';
+import {changeMapFilter} from './main.js';
 import {showSuccessAlert,showErrorAlert} from './message.js';
 import {getFilterValue} from './filter.js';
 
@@ -24,7 +25,8 @@ const avatarOptions = {width: 40,height:40};
 
 const hotelImage = document.querySelector('#images');
 const hotelPreview = document.querySelector('.ad-form__photo');
-const hotelOptions = {style: 'max-width:100%;max-height:100%'};
+const hotelOptions = {style: 'max-width:100%;max-height:100%;border-radius:5px'};
+
 
 //Ограничения для заголовка
 const MIN_TITLE_LENGTH = 30;
@@ -144,9 +146,10 @@ const clearFileReview =(placeContainer,defaulChild = false) => {
 const onSuccess = () => {
   showSuccessAlert();
   form.reset();
+  mapFilter.reset();
   clearFileReview(avatarPreview,avatarPlaсeholder);
   clearFileReview(hotelPreview);
-  resetMap();
+  changeMapFilter();
 };
 
 const onError = (error) => {
@@ -210,7 +213,7 @@ reset.addEventListener('click',(evt)=>{
   clearFileReview(avatarPreview,avatarPlaсeholder);
   clearFileReview(hotelPreview);
   mapFilter.reset();
-  resetMap();
+  changeMapFilter();
 });
 
 
