@@ -18,18 +18,15 @@ const changeMapFilter = () => {
 const getDataOnSuccess = (data) => {
   dataFromServer = data;
   drawMapData(filterData(dataFromServer).slice(0,DATA_LIMIT));
-  enabledForm();
 };
 
 const getDataOnError = (error) =>  showAlert(`При загрузке данных произошла ошибка ${error}`);
 
 const activatePage = () => {
+  enabledForm();
   setAddressCoordinate(initLat, initLng);
   loadData(getDataOnSuccess,getDataOnError);
 };
 
-
-activateMap(activatePage);
 setFilterEventListener(debounce(changeMapFilter));
-
-export {changeMapFilter};
+activateMap(activatePage);
