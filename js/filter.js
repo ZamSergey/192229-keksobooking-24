@@ -1,3 +1,7 @@
+const LOW_PRICE = 10000;
+const HIGH_PRICE = 50000;
+const FILTER_LIMIT = 10;
+
 const typeFilter = document.querySelector('#housing-type');
 const priceFilter = document.querySelector('#housing-price');
 const roomsFilter = document.querySelector('#housing-rooms');
@@ -20,12 +24,12 @@ const getFilterValue = () => {
     filterObject.guests = guestsFilter.value;
   }
   const features = featuresFilter.querySelectorAll('input[name=features]:checked');
-  const filterArray = [];
+  const filters = [];
   for(const feature of features) {
-    filterArray.push(feature.value);
+    filters.push(feature.value);
   }
-  if (filterArray.length > 0) {
-    filterObject.features = filterArray;
+  if (filters.length > 0) {
+    filterObject.features = filters;
   }
   return filterObject;
 };
@@ -33,13 +37,13 @@ const getFilterValue = () => {
 
 const countPriceRank = (filerValue,dataValue) => {
   let rank = 0;
-  if(filerValue === 'low' && dataValue < 10000) {
+  if(filerValue === 'low' && dataValue < LOW_PRICE) {
     rank = 1;
   }
-  else if(filerValue === 'high' && dataValue > 50000) {
+  else if(filerValue === 'high' && dataValue > HIGH_PRICE) {
     rank = 1;
   }
-  else if (filerValue === 'middle' && dataValue <= 50000 && dataValue >= 10000) {
+  else if (filerValue === 'middle' && dataValue <= HIGH_PRICE && dataValue >= LOW_PRICE) {
     rank = 1;
   }
   return rank;
@@ -81,13 +85,13 @@ const getSimilarPlaces = (dataObject) => {
   return (placeRank === Object.keys(filterObject).length);
 };
 
-const filterData = (dataArray) => {
+const filterData = (data) => {
   const filteredData = [];
-  for(let i = 0; i < dataArray.length; i++){
-    if(getSimilarPlaces(dataArray[i])) {
-      filteredData.push(dataArray[i]);
+  for(let i = 0; i < data.length; i++){
+    if(getSimilarPlaces(data[i])) {
+      filteredData.push(data[i]);
     }
-    if(filteredData.length === 10) {
+    if(filteredData.length === FILTER_LIMIT) {
       break;
     }
   }
@@ -99,4 +103,4 @@ const setFilterEventListener = (cb) => {
   mapFilter.addEventListener('reset', () => cb());
 };
 
-export {filterData,getFilterValue,setFilterEventListener};
+export {filterData,getFilterValue,setFilterEventListener,FILTER_LIMIT};

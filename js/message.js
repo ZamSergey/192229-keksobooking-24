@@ -3,43 +3,43 @@ const ALERT_SHOW_TIME = 5000;
 const showSuccessAlert = () => {
   const alertContainer = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
   document.body.append(alertContainer);
-  const escHandler = (evt) => {
+  const escClickHandler = (evt) => {
     if (evt.key  === 'Escape') {
       alertContainer.remove();
-      document.removeEventListener('keydown',escHandler);
+      document.removeEventListener('keydown',escClickHandler);
     }
   };
-  document.addEventListener('keydown',escHandler);
-  const clickHandler = () => {
+  document.addEventListener('keydown',escClickHandler);
+  const alertClickHandler = () => {
     alertContainer.remove();
-    document.removeEventListener('click',clickHandler);
+    document.removeEventListener('click',alertClickHandler);
   };
-  document.addEventListener('click',clickHandler);
+  document.addEventListener('click',alertClickHandler);
 };
 
 const showErrorAlert = (errorText) => {
   const alertContainer = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
   alertContainer.querySelector('.error__message').textContent = errorText;
   document.body.append(alertContainer);
-  const escHandler = (evt) => {
+  const escClickHandler = (evt) => {
     if (evt.key  === 'Escape') {
       alertContainer.remove();
-      document.removeEventListener('keydown',escHandler);
+      document.removeEventListener('keydown',escClickHandler);
     }
   };
-  document.addEventListener('keydown',escHandler);
-  const clickHandler = () => {
+  document.addEventListener('keydown',escClickHandler);
+  const alertClickHandler = () => {
     alertContainer.remove();
-    document.removeEventListener('click',clickHandler);
+    document.removeEventListener('click',alertClickHandler);
   };
-  document.addEventListener('click',clickHandler);
+  document.addEventListener('click',alertClickHandler);
 
   const closeErrorPopup = document.querySelector('.error__button');
-  const buttonHandler = () => {
+  const buttonClickHandler = () => {
     alertContainer.remove();
-    closeErrorPopup.removeEventListener('click',buttonHandler);
+    closeErrorPopup.removeEventListener('click',buttonClickHandler);
   };
-  closeErrorPopup.addEventListener('click',buttonHandler);
+  closeErrorPopup.addEventListener('click',buttonClickHandler);
 };
 
 const showAlert = (message) => {

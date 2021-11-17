@@ -1,8 +1,26 @@
 import {sendData} from './load.js';
-// import {resetMap} from './map.js';
 import {changeMapFilter} from './main.js';
 import {showSuccessAlert,showErrorAlert} from './message.js';
 import {getFilterValue} from './filter.js';
+
+//Ограничения для заголовка
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+
+//Ограничения для цены
+const MAX_PRISE_LENGTH = 1000000;
+
+//Ограничение для загружаемых картинок
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
+const MIN_PRICE = 0;
+const MIN_PRICE_FLAT = 1000;
+const MIN_PRICE_HOTEL = 3000;
+const MIN_PRICE_HOUSE = 5000;
+const MIN_PRICE_PALACE = 10000;
+
+const AVATAR_OPTIONS = {width: 40,height:40};
+const HOTEL_OPTIONS = {style: 'max-width:100%;max-height:100%;border-radius:5px'};
 
 const form = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
@@ -15,24 +33,15 @@ const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
 const address = document.querySelector('#address');
 const reset = document.querySelector('.ad-form__reset');
-//Ограничение для загружаемых картинок
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
-const avatarPlaсeholder = document.querySelector('.ad-form-header__preview img');
+
+const avatarPlaceholder = document.querySelector('.ad-form-header__preview img');
 
 const fileAvatar = document.querySelector('#avatar');
 const avatarPreview = document.querySelector('.ad-form-header__preview');
-const avatarOptions = {width: 40,height:40};
 
 const hotelImage = document.querySelector('#images');
 const hotelPreview = document.querySelector('.ad-form__photo');
-const hotelOptions = {style: 'max-width:100%;max-height:100%;border-radius:5px'};
 
-//Ограничения для заголовка
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
-
-//Ограничения для цены
-const MAX_PRISE_LENGTH = 1000000;
 
 const toggleListDisabled = (elementsList) => {
   for(let i = 0; i < elementsList.length;i++ ){
@@ -49,7 +58,6 @@ const disableForm = () => {
   toggleListDisabled(mapFilter.querySelectorAll('input'));
 };
 
-
 const enabledForm = () => {
   form.classList.remove('ad-form--disabled');
   mapFilter.classList.remove('ad-form--disabled');
@@ -61,18 +69,18 @@ const enabledForm = () => {
 
 //Получить новую минимульную цену
 const getMinPrice = (selectedTypeOption) => {
-  let minPrise = 0;
+  let minPrise = MIN_PRICE;
   if (selectedTypeOption.value === 'flat') {
-    minPrise = 1000;
+    minPrise = MIN_PRICE_FLAT;
   }
   if (selectedTypeOption.value === 'hotel') {
-    minPrise = 3000;
+    minPrise = MIN_PRICE_HOTEL;
   }
   if (selectedTypeOption.value === 'house') {
-    minPrise = 5000;
+    minPrise = MIN_PRICE_HOUSE;
   }
   if (selectedTypeOption.value === 'palace') {
-    minPrise = 10000;
+    minPrise = MIN_PRICE_PALACE;
   }
   return minPrise;
 };
@@ -142,13 +150,19 @@ const clearFileReview =(placeContainer,defaulChild = false) => {
   }
 };
 
+const setPrice = () => {
+  adPrice.min = getMinPrice(roomType);
+  adPrice.placeholder = getMinPrice(roomType);
+};
+
 const onSuccess = () => {
   showSuccessAlert();
   form.reset();
   mapFilter.reset();
-  clearFileReview(avatarPreview,avatarPlaсeholder);
+  clearFileReview(avatarPreview,avatarPlaceholder);
   clearFileReview(hotelPreview);
   changeMapFilter();
+  setPrice();
 };
 
 const onError = (error) => {
@@ -159,8 +173,7 @@ const onError = (error) => {
 disableForm();
 
 //Предварительно нужно задать минимально возможную стоимость
-adPrice.min = getMinPrice(roomType);
-adPrice.placeholder = getMinPrice(roomType);
+setPrice();
 
 //Если на странице поумолчанию стоят невалидные значения, а пользователь ничего не менял, то должна производиться первичная проверка по умолчанию
 checkRoomCapacity();
@@ -190,8 +203,7 @@ adPrice.addEventListener('input', () => {
 });
 
 roomType.addEventListener('change', () => {
-  adPrice.min = getMinPrice(roomType);
-  adPrice.placeholder = getMinPrice(roomType);
+  setPrice();
   checkPrice();
 });
 
@@ -203,18 +215,18 @@ adRoomCapacity.addEventListener('change', () => {
   checkRoomCapacity();
 });
 
-showFilePreview(fileAvatar,avatarPreview,avatarOptions);
-showFilePreview(hotelImage,hotelPreview,hotelOptions);
+showFilePreview(fileAvatar,avatarPreview,AVATAR_OPTIONS);
+showFilePreview(hotelImage,hotelPreview,HOTEL_OPTIONS);
 
 reset.addEventListener('click',(evt)=>{
   evt.preventDefault();
   form.reset();
-  clearFileReview(avatarPreview,avatarPlaсeholder);
+  clearFileReview(avatarPreview,avatarPlaceholder);
   clearFileReview(hotelPreview);
   mapFilter.reset();
   changeMapFilter();
+  setPrice();
 });
-
 
 form.addEventListener('submit', (evt)=>{
   evt.preventDefault();

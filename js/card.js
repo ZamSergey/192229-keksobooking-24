@@ -1,14 +1,14 @@
 const placeType = {'flat': 'Квартира','bungalow':'Бунгало', 'house':'Дом','palace':'Дворец', 'hotel':'Отель'};
 const cardTemplateMain = document.querySelector('#card').content.querySelector('.popup');
 
-const createFeatureList = (userElementArray) => {
+const createFeatureList = (elements) => {
   const featureList = document.createDocumentFragment();
   const listItemTemplate = document.createElement('li');
   listItemTemplate.classList.add('popup__feature');
 
-  for(let i = 0; i < userElementArray.length; i++) {
+  for(let i = 0; i < elements.length; i++) {
     const listItem = listItemTemplate.cloneNode();
-    listItem.classList.add(`popup__feature--${userElementArray[i]}`);
+    listItem.classList.add(`popup__feature--${elements[i]}`);
     featureList.appendChild(listItem);
   }
 

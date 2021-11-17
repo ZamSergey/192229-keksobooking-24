@@ -1,28 +1,37 @@
 import {setAddressCoordinate} from './form.js';
 import {createCard} from './card.js';
 
+const INIT_LAT = 35.681729;
+const INIT_LNG =  139.753927;
+const MAIN_PIN_ICON_SIZE = [52, 52];
+const  MAIN_PIN_ICON_ANCHOR = [26, 52];
+
+const SECONDARY_PIN_ICON_SIZE = [40, 40];
+const  SECONDARY_PIN_ICON_ANCHOR = [20, 40];
+
+const MAP_ZOOM = 13;
+
 const map = L.map('map-canvas');
 const mainPointLayer = L.layerGroup().addTo(map);
 const overPointLayer = L.layerGroup().addTo(map);
 
-const initLat = 35.681729;
-const initLng =  139.753927;
+
 const mainPin = {
   iconUrl: '/img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: MAIN_PIN_ICON_SIZE,
+  iconAnchor: MAIN_PIN_ICON_ANCHOR,
 };
 const secondaryPin = {
   iconUrl: '/img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize:  SECONDARY_PIN_ICON_SIZE,
+  iconAnchor:  SECONDARY_PIN_ICON_ANCHOR,
 };
 
 const setMainView = () => {
   map.setView({
-    lat: initLat,
-    lng: initLng,
-  }, 13);
+    lat: INIT_LAT,
+    lng: INIT_LNG,
+  }, MAP_ZOOM);
 };
 
 const configureMap = (functionAfterLoadMap) => {
@@ -42,8 +51,8 @@ const configureMap = (functionAfterLoadMap) => {
 const setMainPin = () => {
   const mainMarker = L.marker(
     {
-      lat:  initLat,
-      lng:  initLng,
+      lat:  INIT_LAT,
+      lng:  INIT_LNG,
     },
     {
       draggable: true,
@@ -79,8 +88,8 @@ const createMarker = (point) => {
     .bindPopup(createCard(point));
 };
 
-const drawMapData = (arrayData) => {
-  arrayData.forEach((point) => {
+const drawMapData = (data) => {
+  data.forEach((point) => {
     createMarker(point);
   });
 };
@@ -95,13 +104,13 @@ const resetMap = () => {
   closePopup();
   setMainView();
   setMainPin();
-  setAddressCoordinate(initLat, initLng);
+  setAddressCoordinate(INIT_LAT, INIT_LNG);
 };
 
-const updateMap = (arrayData) => {
+const updateMap = (data) => {
   resetMap();
   overPointLayer.clearLayers();
-  drawMapData(arrayData);
+  drawMapData(data);
 };
 
-export {closePopup, setMainPin,activateMap,drawMapData,initLat,initLng,updateMap};
+export {closePopup, setMainPin,activateMap,drawMapData,INIT_LAT,INIT_LNG,updateMap};
