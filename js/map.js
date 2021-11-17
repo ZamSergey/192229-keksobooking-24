@@ -4,10 +4,10 @@ import {createCard} from './card.js';
 const INIT_LAT = 35.681729;
 const INIT_LNG =  139.753927;
 const MAIN_PIN_ICON_SIZE = [52, 52];
-const  MAIN_PIN_ICON_ANCHOR = [26, 52];
+const MAIN_PIN_ICON_ANCHOR = [26, 52];
 
 const SECONDARY_PIN_ICON_SIZE = [40, 40];
-const  SECONDARY_PIN_ICON_ANCHOR = [20, 40];
+const SECONDARY_PIN_ICON_ANCHOR = [20, 40];
 
 const MAP_ZOOM = 13;
 
@@ -23,8 +23,8 @@ const mainPin = {
 };
 const secondaryPin = {
   iconUrl: '/img/pin.svg',
-  iconSize:  SECONDARY_PIN_ICON_SIZE,
-  iconAnchor:  SECONDARY_PIN_ICON_ANCHOR,
+  iconSize: SECONDARY_PIN_ICON_SIZE,
+  iconAnchor: SECONDARY_PIN_ICON_ANCHOR,
 };
 
 const setMainView = () => {
