@@ -163,6 +163,7 @@ const onSuccess = () => {
   clearFileReview(hotelPreview);
   changeMapFilter();
   setPrice();
+
 };
 
 const onError = (error) => {
